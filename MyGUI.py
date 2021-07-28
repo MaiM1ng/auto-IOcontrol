@@ -15,6 +15,7 @@ import openpyxl as op
 
 
 pyautogui.FAILSAFE = True
+pyautogui.PAUSE = 1
 
 class MyGui(object):
 
@@ -109,7 +110,8 @@ class MyGui(object):
         fpath = self.txt_filePath.get()
         # print(fpath)
         if fpath != "":
-            file = open(fpath, 'r', encoding='utf-8-sig')
+            file = open(fpath, 'r', encoding='utf-8')
+            # file = open(fpath, 'r', encoding='utf-8-sig')
             lines = file.readlines()
             print(lines)
             for line in lines:
@@ -127,7 +129,7 @@ class MyGui(object):
             if self.isRunMinFlag:
                 self.root.state('iconic')
             for instruction in self.instLst:
-                # print(instruction.toString())
+                print(instruction.toString())
                 instruction.execute()
         except pyautogui.FailSafeException:
             print('停止执行')
@@ -246,12 +248,14 @@ class Instruction(object):
         elif self.type == "#":
             pass
 
+        else:
+            print('命令出错;错误的命令为:' + self.instStr)
+
     def __paste(self):
         pass
 
     def toString(self):
-        if self.type == 'EXCELGET':
-            return '1'
+        return self.instStr
 
 
 class MyExcel(object):
